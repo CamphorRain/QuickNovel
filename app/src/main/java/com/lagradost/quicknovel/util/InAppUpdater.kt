@@ -60,8 +60,7 @@ class InAppUpdater {
                 .configure(KotlinFeature.SingletonSupport, false)
                 .configure(KotlinFeature.StrictNullChecks, false)
                 .build()
-        )
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).build()
+        ).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).build()
 
         private suspend fun Activity.getAppUpdate(): Update {
             try {

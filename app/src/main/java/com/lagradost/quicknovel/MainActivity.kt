@@ -387,7 +387,7 @@ class MainActivity : AppCompatActivity() {
                 navView.setOnNavigationItemReselectedListener { item ->
                     return@setOnNavigationItemReselectedListener
                 }*/
-        navView.setOnNavigationItemSelectedListener { item ->
+        navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_homepage -> {
                     navController.navigate(R.id.navigation_homepage, null, navOptions)
@@ -412,6 +412,31 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        /*navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_homepage -> {
+                    navController.navigate(R.id.navigation_homepage, null, navOptions)
+                }
+
+                R.id.navigation_search -> {
+                    navController.navigate(R.id.navigation_search, null, navOptions)
+                }
+
+                R.id.navigation_download -> {
+                    navController.navigate(R.id.navigation_download, null, navOptions)
+                }
+
+                R.id.navigation_history -> {
+                    navController.navigate(R.id.navigation_history, null, navOptions)
+                }
+
+                R.id.navigation_settings -> {
+                    navController.navigate(R.id.navigation_settings, null, navOptions)
+                }
+            }
+            true
+        }*/
+
         observe(viewModel.readState) {
             bottomPreviewBinding?.apply {
                 bookmark.setIconResource(if (it == ReadType.NONE) R.drawable.ic_baseline_bookmark_border_24 else R.drawable.ic_baseline_bookmark_24)
@@ -421,8 +446,6 @@ class MainActivity : AppCompatActivity() {
 
         observe(viewModel.downloadState) { progressState ->
             val hasDownload = progressState != null && progressState.progress > 0
-
-
             bottomPreviewBinding?.downloadDeleteTrashFromResult?.apply {
                 isVisible = hasDownload
                 isClickable = hasDownload

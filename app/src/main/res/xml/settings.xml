@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory />
+
+<!--    <PreferenceCategory />-->
+
     <PreferenceCategory
             android:key="search"
             android:title="Search"
             app:isPreferenceVisible="true">
+
         <SwitchPreference
                 android:icon="@drawable/search_icon_white"
                 app:key="advanced_search"
                 android:title="Advanced Search"
                 android:summary="Gives you the search results separated by provider"
                 app:defaultValue="true" />
+
         <Preference
                 app:icon="@drawable/ic_baseline_cloud_24"
                 android:key="@string/search_providers_list_key"
                 android:title="Search Providers"
                 app:useSimpleSummaryProvider="true" />
+
         <!--<ListPreference
                 app:icon="@drawable/ic_baseline_grid_view_24"
                 android:key="@string/grid_format_key"
@@ -31,7 +35,6 @@
                 android:key="@string/provider_lang_key"
                 android:title="@string/provider_lang_settings" />
     </PreferenceCategory>
-
 
     <PreferenceCategory
             android:key="general"
@@ -104,7 +107,7 @@
 
     <PreferenceCategory
             android:key="extra"
-            android:title="Info"
+            android:title="App Info"
             app:isPreferenceVisible="true">
 
         <Preference

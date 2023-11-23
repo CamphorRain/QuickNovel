@@ -115,6 +115,7 @@
                 <data android:mimeType="application/epub+zip" />
             </intent-filter>
         </activity>
+
         <service
                 android:name=".services.DownloadService"
                 android:enabled="true"

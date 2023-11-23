@@ -18,9 +18,9 @@ class Apis {
     companion object {
         val apis: Array<MainAPI> = arrayOf(
             //AllProvider(),
-//            NovelPassionProvider(), // Site gone
+            //NovelPassionProvider(), // Site gone
             BestLightNovelProvider(),
-//            WuxiaWorldOnlineProvider(), // Site does not work
+            //WuxiaWorldOnlineProvider(), // Site does not work
             RoyalRoadProvider(),
             FreewebnovelProvider(),
             //AzynovelProvider(), // dont exist anymore
@@ -37,16 +37,16 @@ class Apis {
             AnnasArchive(),
 
             // chapter captcha
-//            WuxiaWorldSiteProvider(),
+            //WuxiaWorldSiteProvider(),
             ReadLightNovelProvider(),
             BoxNovelProvider(),
             ComrademaoProvider(),
-//            LightNovelPubProvider(), // Got cloudflare, but probably bypassable
+            //LightNovelPubProvider(), // Got cloudflare, but probably bypassable
             ReadNovelFullProvider(),
             ScribblehubProvider(),
             KolNovelProvider(),
             RewayatArProvider(),
-//            ReadAnyBookProvider(), // Books locked behind login
+            //ReadAnyBookProvider(), // Books locked behind login
             MeioNovelProvider(),
             MoreNovelProvider(),
             IndoWebNovelProvider(),

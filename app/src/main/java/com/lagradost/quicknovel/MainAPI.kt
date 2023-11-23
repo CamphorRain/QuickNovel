@@ -157,8 +157,8 @@ data class UserReview(
     val rating: Int?,
     val ratings: List<Pair<Int, String>>?,
 )
-/*
-data class MainPageResponse(
+
+/*data class MainPageResponse(
     val name: String,
     val url: String,
     val posterUrl: String?,

@@ -3,11 +3,12 @@ package com.lagradost.quicknovel.ui.settings
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
-import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreference
 import com.lagradost.quicknovel.APIRepository.Companion.providersActive
 import com.lagradost.quicknovel.CommonActivity.showToast
 import com.lagradost.quicknovel.R
@@ -19,13 +20,13 @@ import com.lagradost.quicknovel.util.BackupUtils.backup
 import com.lagradost.quicknovel.util.BackupUtils.restorePrompt
 import com.lagradost.quicknovel.util.Coroutines.ioSafe
 import com.lagradost.quicknovel.util.InAppUpdater.Companion.runAutoUpdate
-import com.lagradost.quicknovel.util.SingleSelectionHelper
 import com.lagradost.quicknovel.util.SingleSelectionHelper.showBottomDialog
 import com.lagradost.quicknovel.util.SingleSelectionHelper.showDialog
 import com.lagradost.quicknovel.util.SingleSelectionHelper.showMultiDialog
 import com.lagradost.quicknovel.util.SubtitleHelper
 
 class SettingsFragment : PreferenceFragmentCompat() {
+
     private fun PreferenceFragmentCompat?.getPref(id: Int): Preference? {
         if (this == null) return null
 
@@ -38,6 +39,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     companion object {
+        const val TAG = "SettingsFragment"
         fun showSearchProviders(context: Context?) {
             if (context == null) return
             val apiNames = apis.map { it.name }
@@ -66,23 +68,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
+
         val settingsManager = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        val multiPreference = getPref(R.string.search_providers_list_key)
+        val sp = findPreference<SwitchPreference>("advanced_search")
+        sp?.setOnPreferenceChangeListener { preference, newValue ->
+            Log.e(TAG, "onCreatePreferences: $preference $newValue")
+            return@setOnPreferenceChangeListener true
+        }
 
-        val updatePrefrence =
-            findPreference<Preference>(getString(R.string.manual_check_update_key))!!
-        val providerLangPreference =
-            findPreference<Preference>(getString(R.string.provider_lang_key))!!
-
-        multiPreference?.setOnPreferenceClickListener {
+        //val multiPreference = getPref(R.string.search_providers_list_key) as Preference?
+        getPref(R.string.search_providers_list_key)?.setOnPreferenceClickListener {
             showSearchProviders(activity)
             return@setOnPreferenceClickListener true
         }
 
         /*multiPreference.entries = apiNames.toTypedArray()
         multiPreference.entryValues = apiNames.toTypedArray()
-
         multiPreference.setOnPreferenceChangeListener { _, newValue ->
             (newValue as HashSet<String>?)?.let {
                 providersActive = it
@@ -100,7 +102,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceClickListener true
         }
 
-        updatePrefrence.setOnPreferenceClickListener {
+        //val updatePreference = findPreference<Preference>(getString(R.string.manual_check_update_key))!!
+        getPref(R.string.manual_check_update_key)?.setOnPreferenceClickListener {
             ioSafe {
                 if (true != activity?.runAutoUpdate(false)) {
                     showToast("No Update Found", Toast.LENGTH_SHORT)
@@ -109,7 +112,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceClickListener true
         }
 
-        providerLangPreference.setOnPreferenceClickListener {
+        //val providerLangPreference = findPreference<Preference>(getString(R.string.provider_lang_key))!!
+        getPref(R.string.provider_lang_key)?.setOnPreferenceClickListener {
             val settingsManager = PreferenceManager.getDefaultSharedPreferences(it.context)
 
             activity?.getApiProviderLangSettings()?.let { current ->
