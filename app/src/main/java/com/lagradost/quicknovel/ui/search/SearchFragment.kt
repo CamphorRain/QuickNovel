@@ -4,7 +4,9 @@ import android.app.Dialog
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lagradost.quicknovel.CommonActivity.activity
 import com.lagradost.quicknovel.HomePageList
+import com.lagradost.quicknovel.R
 import com.lagradost.quicknovel.databinding.FragmentSearchBinding
 import com.lagradost.quicknovel.databinding.HomeEpisodesExpandedBinding
 import com.lagradost.quicknovel.mvvm.Resource
@@ -35,6 +38,8 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
 
     companion object {
+        private const val TAG = "SearchFragment"
+
         val configEvent = Event<Int>()
         var currentSpan = 1
         var currentDialog: Dialog? = null
@@ -113,6 +118,67 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.searchPageToolbar.apply {
+            setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            setNavigationOnClickListener {
+                //val navController = requireActivity().findNavController(R.id.nav_host_fragment)
+                //navController.navigate(R.id.navigation_homepage, Bundle(), MainActivity.navOptions)
+                // activity?.popCurrentPage()
+                activity?.onBackPressed()
+            }
+
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_search_setting -> {
+                        SettingsFragment.showSearchProviders(this@SearchFragment.context)
+                    }
+                    else -> {
+                    }
+                }
+                return@setOnMenuItemClickListener true
+            }
+
+            val myActionMenuItem = menu.findItem(R.id.action_search)
+            val searchView = myActionMenuItem.actionView as SearchView
+            myActionMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
+                    Log.d(TAG, "onMenuItemActionExpand: $p0")
+                    return true
+                }
+
+                override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
+                    Log.d(TAG, "onMenuItemActionCollapse: $p0")
+                    //viewModel.switchToMain()
+                    return true
+                }
+            })
+
+            searchView.queryHint = getString(R.string.search_hint)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    searchExitIcon.alpha = 0f
+                    binding.searchLoadingBar.alpha = 1f
+                    viewModel.search(query)//MainActivity.activeAPI.search(query)
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    return true
+                }
+            })
+            searchView.setOnQueryTextFocusChangeListener { searchView, b ->
+                if (b) {
+                    // https://stackoverflow.com/questions/12022715/unable-to-show-keyboard-automatically-in-the-searchview
+                    searchView.doOnLayout {
+                        val imm: InputMethodManager? =
+                            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager?
+                        imm?.showSoftInput(searchView.findFocus(), 0)
+                    }
+                }
+            }
+            searchView.onActionViewExpanded()
+        }
 
         val masterAdapter = ParentItemAdapter2(viewModel)
         val allAdapter = SearchAdapter2(viewModel, binding.searchAllRecycler)

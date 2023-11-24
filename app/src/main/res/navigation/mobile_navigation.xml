@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/mobile_navigation"
-            app:startDestination="@+id/navigation_download">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mobile_navigation"
+        app:startDestination="@+id/navigation_history">
+    <!-- app:startDestination="@+id/navigation_download" -->
     <fragment
             android:id="@+id/navigation_homepage"
             android:name="com.lagradost.quicknovel.ui.home.HomeFragment"
             android:label="@string/title_home"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_home">
-    </fragment>
+            tools:layout="@layout/fragment_home" />
     <fragment
             android:id="@+id/navigation_search"
             android:name="com.lagradost.quicknovel.ui.search.SearchFragment"
             android:label="@string/title_search"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_search">
-    </fragment>
+            />
+    <!--  tools:layout="@layout/fragment_search"  -->
     <fragment
             android:id="@+id/navigation_download"
             android:name="com.lagradost.quicknovel.ui.download.DownloadFragment"
             android:label="@string/title_download"
-            android:layout_height="match_parent"
-            tools:layout="@layout/fragment_downloads">
-    </fragment>
+            android:layout_height="match_parent" />
+    <!--tools:layout="@layout/fragment_downloads"-->
+
     <fragment
             android:id="@+id/navigation_settings"
             android:name="com.lagradost.quicknovel.ui.settings.SettingsFragment"
             android:label="@string/title_download"
-            android:layout_height="match_parent">
-    </fragment>
+            android:layout_height="match_parent"/>
     <fragment
             android:id="@+id/navigation_mainpage"
             android:name="com.lagradost.quicknovel.ui.mainpage.MainPageFragment"
             android:label="@string/title_download"
-            android:layout_height="match_parent">
-    </fragment>
+            android:layout_height="match_parent"/>
     <fragment
             android:id="@+id/navigation_history"
             android:name="com.lagradost.quicknovel.ui.history.HistoryFragment"
             android:label="@string/title_download"
-            android:layout_height="match_parent">
-    </fragment>
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_history"/>
 </navigation>

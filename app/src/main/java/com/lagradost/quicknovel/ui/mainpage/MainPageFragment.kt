@@ -129,8 +129,7 @@ class MainPageFragment : Fragment() {
                 }
                 return@setOnMenuItemClickListener true
             }
-            val myActionMenuItem =
-                menu.findItem(R.id.action_search)
+            val myActionMenuItem = menu.findItem(R.id.action_search)
             val searchView = myActionMenuItem.actionView as SearchView
             myActionMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionExpand(p0: MenuItem): Boolean {

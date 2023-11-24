@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -70,6 +71,7 @@ import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
     companion object {
+        private const val TAG = "MainActivity"
         private val mapper = JsonMapper.builder().addModule(KotlinModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).build()!!
 
@@ -185,12 +187,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun AppCompatActivity.backPressed(): Boolean {
-            this.window?.navigationBarColor =
-                this.colorFromAttribute(R.attr.primaryGrayBackground)
+            this.window?.navigationBarColor = this.colorFromAttribute(R.attr.primaryGrayBackground)
+
+            Log.d(TAG, "backPressed: ${supportFragmentManager.fragments}")
 
             val currentFragment = supportFragmentManager.fragments.last {
                 it.isVisible
             }
+
+            Log.d(TAG, "backPressed: $currentFragment")
 
             if (currentFragment is NavHostFragment) {
                 val child = currentFragment.childFragmentManager.fragments.last {
@@ -283,8 +288,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.initState(apiName, url)
     }
 
-    var bottomPreviewBinding: BottomPreviewBinding? = null
-    var bottomPreviewPopup: BottomSheetDialog? = null
+    private var bottomPreviewBinding: BottomPreviewBinding? = null
+    private var bottomPreviewPopup: BottomSheetDialog? = null
     private fun showPreviewPopupDialog(): BottomPreviewBinding {
         val ret = (bottomPreviewBinding ?: run {
             val builder =
@@ -371,6 +376,7 @@ class MainActivity : AppCompatActivity() {
         val rippleColor = ColorStateList.valueOf(getResourceColor(R.attr.colorPrimary, 0.1f))
         navView.itemRippleColor = rippleColor
         navView.itemActiveIndicatorColor = rippleColor
+        navView.selectedItemId = R.id.navigation_history
 
         val navController = findNavController(R.id.nav_host_fragment)
 
@@ -383,6 +389,7 @@ class MainActivity : AppCompatActivity() {
             .setPopExitAnim(R.anim.nav_pop_exit)
             .setPopUpTo(navController.graph.startDestinationId, false)
             .build()
+
         /*
                 navView.setOnNavigationItemReselectedListener { item ->
                     return@setOnNavigationItemReselectedListener
@@ -596,7 +603,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun test() {
+    private fun test() {
         // val response = app.get("https://ranobes.net/up/a-bored-lich/936969-1.html")
         // println(response.text)
     }

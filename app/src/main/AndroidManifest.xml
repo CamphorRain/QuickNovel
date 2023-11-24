@@ -116,6 +116,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+                android:name=".SearchActivity"
+                android:exported="true"
+                android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden|navigation" />
+
         <service
                 android:name=".services.DownloadService"
                 android:enabled="true"

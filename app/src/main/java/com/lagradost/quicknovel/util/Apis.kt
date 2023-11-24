@@ -44,13 +44,13 @@ class Apis {
             //LightNovelPubProvider(), // Got cloudflare, but probably bypassable
             ReadNovelFullProvider(),
             ScribblehubProvider(),
-            KolNovelProvider(),
-            RewayatArProvider(),
-            //ReadAnyBookProvider(), // Books locked behind login
-            MeioNovelProvider(),
-            MoreNovelProvider(),
-            IndoWebNovelProvider(),
-            SakuraNovelProvider(),
+//            KolNovelProvider(),
+//            RewayatArProvider(),
+//            //ReadAnyBookProvider(), // Books locked behind login
+//            MeioNovelProvider(),
+//            MoreNovelProvider(),
+//            IndoWebNovelProvider(),
+//            SakuraNovelProvider(),
             WattpadProvider(),
         )
 
